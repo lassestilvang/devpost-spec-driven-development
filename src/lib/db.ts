@@ -11,6 +11,10 @@ export class MorgenLiteDB extends Dexie {
       events: '++id, start, end',
       todos: '++id, createdAt',
     });
+    this.version(2).stores({
+      events: '++id, start, end',
+      todos: '++id, completed, createdAt',
+    });
   }
 }
 
