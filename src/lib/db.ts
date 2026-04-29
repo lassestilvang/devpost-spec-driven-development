@@ -1,8 +1,17 @@
-import Dexie from "dexie";
+import Dexie, { Table } from 'dexie';
+import { Event, Todo } from './types';
 
-export const db = new Dexie("morgen-lite");
+export class MorgenLiteDB extends Dexie {
+  events!: Table<Event, string>;
+  todos!: Table<Todo, string>;
 
-db.version(1).stores({
-  events: "++id, start, end",
-  todos: "++id, createdAt",
-});
+  constructor() {
+    super('MorgenLiteDB');
+    this.version(1).stores({
+      events: '++id, start, end',
+      todos: '++id, createdAt',
+    });
+  }
+}
+
+export const db = new MorgenLiteDB();
