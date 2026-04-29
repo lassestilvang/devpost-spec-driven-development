@@ -40,7 +40,7 @@
   Acceptance: Dragging a todo from sidebar onto a calendar time slot places a colored event at that time. Todo disappears from sidebar immediately. Event spans 30 minutes. Color is auto-assigned from palette. Dropping on different days works correctly.
   Verify: Run `npm run dev`, create a todo, drag it onto the week view calendar, confirm it becomes a colored event and disappears from sidebar.
 
-- [ ] **6. Click-to-Create events on empty time slots**
+- [x] **6. Click-to-Create events on empty time slots**
   Spec ref: `spec.md > Scheduling > Click-to-Create`
   What to build: Wire up trud-calendar's `onSlotClick` handler. On click: call `db.events.add({ id: newId, title: "New Event", start: clickedTime, end: clickedTime + 30min, color: nextColorFromPalette })`. Event appears immediately at the clicked time with 30-minute default duration. Title defaults to "New Event" — user edits it later via event click (next step).
   Acceptance: Clicking any empty time slot in any view creates a new event at that time. Event is colored, spans 30 minutes, and appears immediately without page refresh. Clicking multiple slots creates multiple events.
