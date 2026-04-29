@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Calendar, type CalendarView, type CalendarEvent, type ToolbarSlotProps, type TimeEventSlotProps } from "trud-calendar";
 import { useEvents } from "@/hooks/useEvents";
 import { useTodos } from "@/hooks/useTodos";
@@ -105,10 +105,12 @@ export default function CalendarView() {
 
   // State for view and date (controlled mode)
   const [view, setView] = useState<CalendarView>("week");
-  const [date, setDate] = useState<string>(() => {
-    const d = new Date();
-    return d.toISOString().split("T")[0]; // YYYY-MM-DD format
-  });
+  const [date, setDate] = useState<string | undefined>(undefined);
+
+  // Set initial date on client only to avoid hydration mismatch
+  useEffect(() => {
+    setDate(new Date().toISOString().split("T")[0]);
+  }, []);
 
   // Convert events to calendar format
   const calendarEvents: CalendarEvent[] = useMemo(() => {
@@ -178,6 +180,8 @@ export default function CalendarView() {
       color,
     });
   }, [events, deleteTodo, addEvent]);
+
+  if (!date) return <div className="h-full w-full dark" />;
 
   return (
     <div
