@@ -46,7 +46,7 @@
   Acceptance: Clicking any empty time slot in any view creates a new event at that time. Event is colored, spans 30 minutes, and appears immediately without page refresh. Clicking multiple slots creates multiple events.
   Verify: Run `npm run dev`, click several empty time slots in week view and day view, confirm events appear at clicked times.
 
-- [ ] **7. Event management — resize, drag, edit, delete**
+- [x] **7. Event management — resize, drag, edit, delete**
   Spec ref: `spec.md > Event Management > Event Resize`, `spec.md > Event Management > Event Drag (Reschedule)`, `spec.md > Event Management > Event Edit`
   What to build: Wire up trud-calendar's `onEventResize` — drag bottom edge of event, update `start`/`end` in Dexie via `useEvents.updateEvent()`. Configure 15-minute minimum grid resolution. Wire up `onEventDrop` — drag event to new time slot (same day or different day), update dates in Dexie. Create `EventEdit.tsx` — shadcn popover triggered by clicking an event. Popover contains: title input (editable, Enter to save), and a delete button. Delete calls `db.events.delete(id)` — event is permanently removed (NOT returned to sidebar). Overlapping events: apply CSS for layering with readability (z-index, opacity, width adjustment).
   Acceptance: Events resize by dragging bottom edge (15min snaps). Events drag to new time slots on same day and across days. Click event → popover opens with title input. Editing title and pressing Enter updates the event on calendar. Delete button removes event permanently. Overlapping events are readable (not completely obscured).
