@@ -52,7 +52,7 @@
   Acceptance: Events resize by dragging bottom edge (15min snaps). Events drag to new time slots on same day and across days. Click event → popover opens with title input. Editing title and pressing Enter updates the event on calendar. Delete button removes event permanently. Overlapping events are readable (not completely obscured).
   Verify: Run `npm run dev`, create several events, test resize, drag to reschedule, click to edit title, delete an event. Confirm overlapping events remain readable.
 
-- [ ] **8. Polish — performance, theme, and visual fidelity**
+- [x] **8. Polish — performance, theme, and visual fidelity**
   Spec ref: `spec.md > What We're Building` (Performance, Design), `spec.md > Open Issues`
   What to build: Audit and tune the app: verify virtual scrolling works in trud-calendar for large event sets. Ensure dark theme + neon blue/purple accents are consistent across all components (sidebar, calendar, popover, buttons). Add subtle circuit board texture background (CSS `background-image` with SVG data URI or similar). Apply monospace typography globally. Tune overlapping event CSS for the Morgen-like layered look (may need z-index, opacity, or width tweaks in trud-calendar's event rendering). Check for any trud-calendar v0.1.4 bugs — if show-stopping, document and consider fallback to FullCalendar. Ensure zero loading states — all interactions feel instant. Test the full flow: create todos → drag to calendar → resize → drag → edit → delete.
   Acceptance: App feels "buttery smooth" — no visible lag on drag, resize, or navigation. Dark theme is polished with neon accents throughout. Circuit board texture is subtle and high-tech. Overlapping events are readable. No loading spinners or delays. Full user flow works end-to-end.
