@@ -1,13 +1,24 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { Calendar, type CalendarView, type CalendarEvent, type ToolbarSlotProps, useCalendarContext } from "trud-calendar";
+import { Calendar, type CalendarView, type CalendarEvent, type ToolbarSlotProps, useCalendarContext, type TimeEventSlotProps } from "trud-calendar";
 import { useEvents } from "@/hooks/useEvents";
 import { useTodos } from "@/hooks/useTodos";
 import { Event as EventType } from "@/lib/types";
 import { getNextColor } from "@/lib/colors";
 import { getDropTime } from "@/lib/drag-utils";
 import { Button } from "@/components/ui/button";
+import EventEdit from "@/components/EventEdit";
+import { cn } from "trud-calendar";
+
+// Round a DateTimeString to the nearest 15 minutes
+function roundTo15Minutes(isoString: string): Date {
+  const date = new Date(isoString);
+  const minutes = date.getMinutes();
+  const roundedMinutes = Math.round(minutes / 15) * 15;
+  date.setMinutes(roundedMinutes, 0, 0);
+  return date;
+}
 
 // Custom toolbar component with view switching and navigation
 function CustomToolbar({ view, onViewChange, onPrev, onNext, onToday, formattedDate }: ToolbarSlotProps) {
@@ -61,6 +72,28 @@ function CustomToolbar({ view, onViewChange, onPrev, onNext, onToday, formattedD
   );
 }
 
+// Custom time event component to handle overlapping event styling
+function CustomTimeEvent({ event, positioned }: TimeEventSlotProps) {
+  const { totalColumns } = positioned;
+  const isOverlapping = totalColumns > 1;
+
+  return (
+    <div className={cn(
+      "h-full w-full p-1",
+      isOverlapping && "opacity-90 border-r border-background/20"
+    )}>
+      <div className="font-medium text-[var(--trc-foreground)] truncate text-xs">
+        {event.title}
+      </div>
+      {positioned.height > 4 && (
+        <div className="text-[10px] text-[var(--trc-muted-foreground)] truncate">
+          {new Date(event.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(event.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // Convert Event (from useEvents) to CalendarEvent (for trud-calendar)
 function toCalendarEvent(event: EventType): CalendarEvent {
   return {
@@ -73,7 +106,7 @@ function toCalendarEvent(event: EventType): CalendarEvent {
 }
 
 export default function CalendarView() {
-  const { events, addEvent } = useEvents();
+  const { events, addEvent, updateEvent, deleteEvent } = useEvents();
   const { deleteTodo } = useTodos();
   const calendarContext = useCalendarContext();
 
@@ -170,9 +203,8 @@ export default function CalendarView() {
         enableDnD
         slots={{
           toolbar: CustomToolbar,
-        }}
-        onEventClick={(event) => {
-          console.log("Event clicked:", event);
+          popover: EventEdit,
+          timeEvent: CustomTimeEvent,
         }}
         onSlotClick={(dateTime) => {
           const start = new Date(dateTime);
@@ -187,10 +219,14 @@ export default function CalendarView() {
           });
         }}
         onEventDrop={(event, newStart, newEnd) => {
-          console.log("Event dropped:", event, newStart, newEnd);
+          const roundedStart = roundTo15Minutes(newStart);
+          const roundedEnd = roundTo15Minutes(newEnd);
+          updateEvent(event.id, { start: roundedStart, end: roundedEnd });
         }}
         onEventResize={(event, newStart, newEnd) => {
-          console.log("Event resized:", event, newStart, newEnd);
+          const roundedStart = roundTo15Minutes(newStart);
+          const roundedEnd = roundTo15Minutes(newEnd);
+          updateEvent(event.id, { start: roundedStart, end: roundedEnd });
         }}
       />
     </div>

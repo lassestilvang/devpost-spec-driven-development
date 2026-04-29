@@ -153,4 +153,24 @@
   html {
     @apply font-sans;
   }
+
+  /* Overlapping event styles for trud-calendar */
+  /* Timed events with position absolute and px-0.5 class */
+  [class*="absolute"][class*="px-0.5"] {
+    border-radius: calc(var(--trc-radius) * 0.5);
+    transition: opacity 150ms ease;
+  }
+
+  /* Adjust overlapping events (width < 100%) for readability */
+  [style*="width: 33%"], [style*="width: 66%"],
+  [style*="width: 25%"], [style*="width: 50%"], [style*="width: 75%"],
+  [style*="width: 20%"], [style*="width: 40%"], [style*="width: 60%"], [style*="width: 80%"] {
+    opacity: 0.9;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Ensure topmost overlapping events are fully opaque */
+  [style*="z-index"] {
+    opacity: 1;
+  }
 }
