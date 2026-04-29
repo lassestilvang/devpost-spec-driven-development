@@ -4,7 +4,11 @@
       "WebSearch",
       "WebFetch(domain:trud-calendar-docs.vercel.app)",
       "WebFetch(domain:www.npmjs.com)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(npx create-next-app@latest *)",
+      "Bash(npx shadcn@latest init -d)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ]
   },
   "enabledPlugins": {
