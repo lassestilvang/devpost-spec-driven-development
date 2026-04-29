@@ -175,7 +175,16 @@ export default function CalendarView() {
           console.log("Event clicked:", event);
         }}
         onSlotClick={(dateTime) => {
-          console.log("Slot clicked:", dateTime);
+          const start = new Date(dateTime);
+          const end = new Date(start.getTime() + 30 * 60 * 1000);
+          const eventCount = events?.length || 0;
+          const color = getNextColor(eventCount);
+          addEvent({
+            title: "New Event",
+            start,
+            end,
+            color,
+          });
         }}
         onEventDrop={(event, newStart, newEnd) => {
           console.log("Event dropped:", event, newStart, newEnd);
