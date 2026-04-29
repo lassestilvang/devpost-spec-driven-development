@@ -12,7 +12,8 @@
       "Bash(npm install *)",
       "Bash(npx tsc *)",
       "Bash(git init *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(npx shadcn *)"
     ]
   },
   "enabledPlugins": {
