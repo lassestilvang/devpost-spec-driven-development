@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { Calendar, type CalendarView, type CalendarEvent, type ToolbarSlotProps } from "trud-calendar";
+import { Calendar, type CalendarView, type CalendarEvent, type ToolbarSlotProps, useCalendarContext } from "trud-calendar";
 import { useEvents } from "@/hooks/useEvents";
+import { useTodos } from "@/hooks/useTodos";
 import { Event as EventType } from "@/lib/types";
+import { getNextColor } from "@/lib/colors";
+import { getDropTime } from "@/lib/drag-utils";
 import { Button } from "@/components/ui/button";
 
 // Custom toolbar component with view switching and navigation
@@ -70,7 +73,9 @@ function toCalendarEvent(event: EventType): CalendarEvent {
 }
 
 export default function CalendarView() {
-  const { events } = useEvents();
+  const { events, addEvent } = useEvents();
+  const { deleteTodo } = useTodos();
+  const calendarContext = useCalendarContext();
 
   // State for view and date (controlled mode)
   const [view, setView] = useState<CalendarView>("week");
@@ -95,8 +100,65 @@ export default function CalendarView() {
     setDate(newDate);
   }, []);
 
+  // Handle drag over to allow dropping
+  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  }, []);
+
+  // Handle drop of todo onto calendar
+  const handleDrop = useCallback(async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    // Get todo data from dataTransfer
+    const todoId = e.dataTransfer.getData('todoId');
+    const todoTitle = e.dataTransfer.getData('todoTitle');
+    if (!todoId || !todoTitle) return;
+
+    // Find the day column element under the drop point
+    const targetElement = document.elementFromPoint(e.clientX, e.clientY);
+    if (!targetElement) return;
+
+    const dayColumn = targetElement.closest('[data-date]');
+    if (!dayColumn) return;
+
+    const day = dayColumn.getAttribute('data-date');
+    if (!day) return;
+
+    const columnRect = dayColumn.getBoundingClientRect();
+    const { dayStartHour, dayEndHour } = calendarContext;
+
+    if (dayStartHour === undefined || dayEndHour === undefined) return;
+
+    // Compute drop time
+    const { start, end } = getDropTime(
+      day,
+      e.clientY,
+      columnRect,
+      dayStartHour,
+      dayEndHour
+    );
+
+    // Get next color based on current event count
+    const eventCount = events?.length || 0;
+    const color = getNextColor(eventCount);
+
+    // Delete todo and add event
+    await deleteTodo(todoId);
+    await addEvent({
+      title: todoTitle,
+      start,
+      end,
+      color,
+    });
+  }, [events, calendarContext, deleteTodo, addEvent]);
+
   return (
-    <div className="h-full w-full dark">
+    <div
+      className="h-full w-full dark"
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
       <Calendar
         events={calendarEvents}
         view={view}
