@@ -16,19 +16,19 @@
   Acceptance: App loads at localhost:3000 with a dark background. Split layout visible (sidebar left, content area right). shadcn provider active (confirm via a shadcn button rendering with dark theme). All planned files exist in the correct directories.
   Verify: Run `npm run dev`, open localhost:3000, confirm dark theme with split layout renders.
 
-- [ ] **2. Dexie database + types + hooks**
+- [x] **2. Dexie database + types + hooks**
   Spec ref: `spec.md > Data Model`, `spec.md > Runtime & Deployment`
   What to build: Create `lib/types.ts` with `Event` (id, title, start, end, color) and `Todo` (id, title, completed, createdAt) interfaces. Create `lib/colors.ts` with a palette of neon colors (blue, purple, green, pink, orange — 6-8 colors) and a function to auto-assign by creation order. Create `lib/db.ts` with Dexie instance: `events` table (schema: `++id, start, end`) and `todos` table (schema: `++id, createdAt`). Create `hooks/useEvents.ts` with `useLiveQuery` for events array, plus `addEvent`, `updateEvent`, `deleteEvent` functions. Create `hooks/useTodos.ts` with `useLiveQuery` for unscheduled todos (where completed: false), plus `addTodo`, `deleteTodo` functions.
   Acceptance: Database initializes in browser IndexedDB. `useLiveQuery` returns empty arrays for both events and todos. All types compile cleanly. `addTodo` writes to Dexie and `useTodos` re-renders reactively.
   Verify: Run `npm run dev`, open browser console, manually call `db.todos.add({ id: crypto.randomUUID(), title: "test", completed: false, createdAt: new Date() })` and confirm it appears in IndexedDB.
 
-- [ ] **3. CalendarView — trud-calendar setup with three views**
+- [x] **3. CalendarView — trud-calendar setup with three views**
   Spec ref: `spec.md > Calendar Views`, `spec.md > CalendarView Component`
   What to build: Install `trud-calendar` and `trud-calendar-core`. Create `CalendarView.tsx` wrapping trud-calendar. Configure three views (day, week, month) with shadcn theming enabled. Default view: week. Wire up view-switching buttons (Day / Week / Month) at the top of the calendar area — switching preserves current date. Add smooth horizontal scroll navigation (prev/next) and a "Jump to Today" button. Pass events array from `useEvents` to trud-calendar's `events` prop. Apply dark theme overrides: neon blue/purple accent colors for the calendar UI. Configure 15-minute grid resolution.
   Acceptance: Week view renders as default with 24-hour grid (0:00–23:59). Day/Week/Month buttons switch views and preserve date. Prev/next navigate between weeks. "Jump to Today" returns to current date. Month view shows date grid. All views render in dark theme with neon accents.
   Verify: Run `npm run dev`, confirm week view loads, click each view button and navigate prev/next, click "Jump to Today".
 
-- [ ] **4. Sidebar components — TodoInput + TodoList + TodoItem**
+- [x] **4. Sidebar components — TodoInput + TodoList + TodoItem**
   Spec ref: `spec.md > To-Do Management > Sidebar Component`, `spec.md > To-Do Management > Todo Drag Configuration`
   What to build: Create `Sidebar.tsx` — left panel container with `TodoInput` at top and `TodoList` below in a scrollable container. `TodoInput.tsx` — single text input, Enter key calls `useTodos.addTodo()`, clears input on success. `TodoList.tsx` — renders array from `useTodos` (unscheduled only, i.e., items NOT in events table) in a scrollable list. `TodoItem.tsx` — displays checkbox (unchecked default) + title. Configure each `TodoItem` as HTML5 drag source: on drag start, set `dataTransfer` with todo `id` and `title`. Empty sidebar is blank (no empty state message).
   Acceptance: Typing in input and pressing Enter adds a todo to the sidebar list. List scrolls when items exceed visible height. Each item shows checkbox + title. Items are draggable (verify via browser devtools or drag attempt). Only unscheduled todos appear (once scheduled, they shouldn't show — handled in next step).
