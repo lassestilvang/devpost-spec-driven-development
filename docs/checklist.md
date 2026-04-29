@@ -34,7 +34,7 @@
   Acceptance: Typing in input and pressing Enter adds a todo to the sidebar list. List scrolls when items exceed visible height. Each item shows checkbox + title. Items are draggable (verify via browser devtools or drag attempt). Only unscheduled todos appear (once scheduled, they shouldn't show — handled in next step).
   Verify: Run `npm run dev`, add 3-4 todos via the input, confirm they appear in the sidebar list, confirm empty state is blank.
 
-- [ ] **5. Drag-to-Schedule — todo from sidebar onto calendar**
+- [x] **5. Drag-to-Schedule — todo from sidebar onto calendar**
   Spec ref: `spec.md > Scheduling > Drag-to-Schedule`, `spec.md > Scheduling > Todo Drag Configuration`
   What to build: Configure `CalendarView` to accept HTML5 drop events on time slots. On drop: read todo `id` and `title` from `dataTransfer`, call `db.todos.delete(id)` + `db.events.add({ id: newId, title, start: dropTime, end: dropTime + 30min, color: nextColorFromPalette })`. Create `lib/drag-utils.ts` with helpers to compute drop time from trud-calendar drop event and to assign next color from palette. After drop, sidebar re-renders (todo gone) and calendar re-renders (event appears). Events render with their assigned color. Default duration: 30 minutes.
   Acceptance: Dragging a todo from sidebar onto a calendar time slot places a colored event at that time. Todo disappears from sidebar immediately. Event spans 30 minutes. Color is auto-assigned from palette. Dropping on different days works correctly.
