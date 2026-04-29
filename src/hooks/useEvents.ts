@@ -3,7 +3,7 @@ import { db } from '../lib/db';
 import { Event } from '../lib/types';
 
 export function useEvents() {
-  const events = useLiveQuery(() => db.events.toArray(), [], db);
+  const events = useLiveQuery<Event[]>(() => db.events.toArray(), []);
 
   const addEvent = async (event: Omit<Event, 'id'>) => {
     const id = crypto.randomUUID();

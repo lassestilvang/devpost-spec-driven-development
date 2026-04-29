@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@source "../node_modules/trud-calendar/dist";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -121,6 +122,25 @@
   --sidebar-ring: oklch(0.556 0 0);
   --neon-blue: #00d4ff;
   --neon-purple: #b44aff;
+
+  /* trud-calendar dark theme overrides with neon accents */
+  --trc-background: oklch(0.145 0 0);
+  --trc-foreground: oklch(0.985 0 0);
+  --trc-muted: oklch(0.269 0 0);
+  --trc-muted-foreground: oklch(0.708 0 0);
+  --trc-border: oklch(1 0 0 / 10%);
+  --trc-primary: #00d4ff;
+  --trc-primary-foreground: oklch(0.145 0 0);
+  --trc-accent: oklch(0.269 0 0);
+  --trc-accent-foreground: #00d4ff;
+  --trc-card: oklch(0.205 0 0);
+  --trc-card-foreground: oklch(0.985 0 0);
+  --trc-ring: #00d4ff;
+  --trc-today-bg: rgba(0, 212, 255, 0.15);
+  --trc-today-text: #00d4ff;
+  --trc-event-default: #b44aff;
+  --trc-current-time: #00d4ff;
+  --trc-hour-height: 3rem;
 }
 
 @layer base {
