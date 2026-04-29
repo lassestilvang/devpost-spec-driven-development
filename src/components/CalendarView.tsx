@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { Calendar, type CalendarView, type CalendarEvent, type ToolbarSlotProps, useCalendarContext, type TimeEventSlotProps } from "trud-calendar";
+import { Calendar, type CalendarView, type CalendarEvent, type ToolbarSlotProps, type TimeEventSlotProps } from "trud-calendar";
 import { useEvents } from "@/hooks/useEvents";
 import { useTodos } from "@/hooks/useTodos";
 import { Event as EventType } from "@/lib/types";
@@ -74,14 +74,8 @@ function CustomToolbar({ view, onViewChange, onPrev, onNext, onToday, formattedD
 
 // Custom time event component to handle overlapping event styling
 function CustomTimeEvent({ event, positioned }: TimeEventSlotProps) {
-  const { totalColumns } = positioned;
-  const isOverlapping = totalColumns > 1;
-
   return (
-    <div className={cn(
-      "h-full w-full p-1",
-      isOverlapping && "opacity-90 border-r border-background/20"
-    )}>
+    <div className="h-full w-full p-1">
       <div className="font-medium text-[var(--trc-foreground)] truncate text-xs">
         {event.title}
       </div>
@@ -108,7 +102,6 @@ function toCalendarEvent(event: EventType): CalendarEvent {
 export default function CalendarView() {
   const { events, addEvent, updateEvent, deleteEvent } = useEvents();
   const { deleteTodo } = useTodos();
-  const calendarContext = useCalendarContext();
 
   // State for view and date (controlled mode)
   const [view, setView] = useState<CalendarView>("week");
@@ -159,9 +152,9 @@ export default function CalendarView() {
     if (!day) return;
 
     const columnRect = dayColumn.getBoundingClientRect();
-    const { dayStartHour, dayEndHour } = calendarContext;
-
-    if (dayStartHour === undefined || dayEndHour === undefined) return;
+    // Hardcoded to match Calendar props: dayStartHour={0} dayEndHour={24}
+    const dayStartHour = 0;
+    const dayEndHour = 24;
 
     // Compute drop time
     const { start, end } = getDropTime(
@@ -184,7 +177,7 @@ export default function CalendarView() {
       end,
       color,
     });
-  }, [events, calendarContext, deleteTodo, addEvent]);
+  }, [events, deleteTodo, addEvent]);
 
   return (
     <div
