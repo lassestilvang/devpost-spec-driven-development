@@ -8,7 +8,11 @@
       "Bash(npx create-next-app@latest *)",
       "Bash(npx shadcn@latest init -d)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(git init *)",
+      "Bash(npm run *)"
     ]
   },
   "enabledPlugins": {
