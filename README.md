@@ -7,8 +7,8 @@ Next.js, TypeScript, React, Tailwind CSS, shadcn/ui, trud-calendar, Dexie.js
 ## Setup Instructions
 Follow these steps to run the app locally:
 ```bash
-git clone https://github.com/lassestilvang/Morgen-Lite.git
-cd Morgen-Lite
+git clone https://github.com/lassestilvang/devpost-spec-driven-development.git
+cd devpost-spec-driven-development
 npm install
 npm run dev
 # Open http://localhost:3000 in your browser
