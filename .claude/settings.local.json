@@ -1,10 +1,13 @@
 {
-  "enabledPlugins": {
-    "hackathon-in-a-plugin@devpost-curriculum": true
-  },
   "permissions": {
     "allow": [
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:trud-calendar-docs.vercel.app)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:github.com)"
     ]
+  },
+  "enabledPlugins": {
+    "hackathon-in-a-plugin@devpost-curriculum": true
   }
 }
