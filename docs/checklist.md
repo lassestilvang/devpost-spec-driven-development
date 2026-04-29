@@ -10,7 +10,7 @@
 
 ## Checklist
 
-- [ ] **1. Project setup + base layout**
+- [x] **1. Project setup + base layout**
   Spec ref: `spec.md > Stack`, `spec.md > File Structure`, `spec.md > Architecture Overview`
   What to build: Scaffold the Next.js (App Router) project with TypeScript, Tailwind CSS, and shadcn/ui. Configure dark theme with custom neon blue (#00d4ff) and neon purple (#b44aff) accents in `globals.css`. Create the root layout (`layout.tsx`) with shadcn provider and monospace font. Create the main page (`page.tsx`) with a split flex layout: fixed-width (~320px) sidebar on the left, calendar area on the right. Create the placeholder file structure per spec: `components/`, `lib/`, `hooks/` directories with stub files for all components listed in the file structure.
   Acceptance: App loads at localhost:3000 with a dark background. Split layout visible (sidebar left, content area right). shadcn provider active (confirm via a shadcn button rendering with dark theme). All planned files exist in the correct directories.
