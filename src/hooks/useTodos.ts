@@ -3,7 +3,7 @@ import { db } from '../lib/db';
 import { Todo } from '../lib/types';
 
 export function useTodos() {
-  const todos = useLiveQuery(() => db.todos.where({ completed: false }).toArray(), [], db);
+  const todos = useLiveQuery(() => db.todos.where({ completed: false }).toArray(), []);
 
   const addTodo = async (title: string) => {
     const id = crypto.randomUUID();
