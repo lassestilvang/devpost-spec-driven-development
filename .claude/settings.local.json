@@ -17,7 +17,5 @@
       "Bash(npm ls *)"
     ]
   },
-  "enabledPlugins": {
-    "hackathon-in-a-plugin@devpost-curriculum": true
-  }
+  "enabledPlugins": {}
 }
